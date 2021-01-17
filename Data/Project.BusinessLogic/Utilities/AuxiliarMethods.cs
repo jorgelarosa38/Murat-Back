@@ -22,7 +22,7 @@ namespace Project.BusinessLogic.Utilities
         public static void Base64ToImage(string binary, string ImagePath, string Category)
         {
             var img = Image.FromStream(new MemoryStream(Convert.FromBase64String(binary)));
-            var path = Path.Combine("../Imagenes/Slider/", Category, ImagePath);
+            var path = Path.Combine(@"D:/WEB/TiendaVirtual/Slider", Category, ImagePath);
             if (File.Exists(path))
             {
                 File.Delete(path);

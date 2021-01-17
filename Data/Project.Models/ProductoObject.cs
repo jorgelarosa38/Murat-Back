@@ -183,4 +183,15 @@ namespace Project.Models
         public int Precio_Ini { get; set; }
         public int Precio_Fin { get; set; }
     }
+
+    public class TagProducto : Base
+    {
+        public int IdTag { get; set; }
+        public int IdProducto { get; set; }
+        public int Cod_Tag { get; set; }
+        public string STag { get; set; }
+        public string SDecripcion { get; set; }
+        public int IdUsuario { get; set; }
+        public string SEstado { get; set; }
+    }
 }

@@ -16,6 +16,9 @@ using Project.DataAccess;
 using Project.UnitOfWork;
 using Project.BusinessLogic.Implements;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Project.BusinessLogic.Helpers;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MuratProject
 {
@@ -51,15 +54,44 @@ namespace MuratProject
             services.AddTransient<ITablaMaestraLogic, TablaMaestraLogic>();
             services.AddTransient<IComboLogic, ComboLogic>();
             services.AddTransient<IWriteOperationLogic, WriteOperationLogic>();
+            services.AddTransient<IProductoLogic, ProductoLogic>();
+            services.AddTransient<IMarcaLogic, MarcaLogic>();
+            services.AddTransient<ISliderLogic, SliderLogic>();
+            services.AddTransient<ICommonLogic, CommonLogic>();
+            services.AddTransient<IPublicadoLogic, PublicadoLogic>();
             #endregion
 
             #region SQL CONNECTION
             services.AddSingleton<IUnitOfWork>(option => new ProjectUnitOfWork(
-            Configuration.GetConnectionString("ProjectOne"), Configuration
+            Configuration.GetConnectionString("Project"), Configuration
             ));
             #endregion
 
             #region OAUTH 2.0
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             services.AddAuthorization(auth =>
             {
                 auth.DefaultPolicy = new AuthorizationPolicyBuilder()

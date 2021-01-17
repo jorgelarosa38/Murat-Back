@@ -1,33 +1,28 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Project.BusinessLogic.Interfaces;
 using Project.Models;
 using ProjectMurat.Utilities;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Project.WebApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]/Services")]
+    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
-    public class MuratController : Controller
+    public class ProductoController : Controller
     {
-        private readonly ITablaMaestraLogic _tablamaestralogic;
-        private readonly IComboLogic _combologic;
-        private readonly IWriteOperationLogic _writeoperationlogic;
-        private readonly IUserLogic _userlogic;
-        public MuratController(IComboLogic combologic, ITablaMaestraLogic tablaMaestraLogic, IWriteOperationLogic writeoperationlogic, IUserLogic userlogic)
+        private readonly IProductoLogic _productologic;
+        public ProductoController(IProductoLogic productologic)
         {
-            _combologic = combologic;
-            _tablamaestralogic = tablaMaestraLogic;
-            _writeoperationlogic = writeoperationlogic;
-            _userlogic = userlogic;
+            _productologic = productologic;
         }
 
         [HttpGet]
-        [Route("combo/ListarCombo/{TIPO:int}/{PARM1:maxlength(50)}/{PARM2:maxlength(50)}/{PARM3:maxlength(50)}/{PARM4:maxlength(50)}/{VALOR:int}")]
-        public async Task<ActionResult<Response>> ListarCombo(int TIPO, string PARM1, string PARM2, string PARM3, string PARM4, int VALOR)
+        [Route("GetProducto/{Codigo:maxlength(20)}")]
+        public async Task<ActionResult<Response>> GetProducto(string Codigo)
         {
             Response response = new Response();
             object rpta = new object();
@@ -38,35 +33,7 @@ namespace Project.WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                rpta = await _combologic.ListarCombo(TIPO, PARM1, PARM2, PARM3, PARM4, VALOR);
-
-                if (rpta == null)
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception e)
-            {
-                response.Status = Constant.Error500;
-                response.Message = e.Message;
-                return Ok(response);
-            }
-            return Ok(rpta);
-        }
-        [HttpGet]
-        [Route("tablaMaestra/GetTablaMaestra/{IDTABLA:int}")]
-        public async Task<ActionResult<Response>> GetTablaMaestra(int IDTABLA)
-        {
-            Response response = new Response();
-            object rpta = new object();
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                rpta = await _tablamaestralogic.GetTablaMaestra(IDTABLA);
+                rpta = await _productologic.GetProducto(Codigo);
 
                 if (rpta == null)
                 {
@@ -83,8 +50,8 @@ namespace Project.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("tablaMaestra/GetListaTabla/{IDTABLA:int}/{IDPADRE:int}/{SDETALLE:maxlength(100)}")]
-        public async Task<ActionResult<Response>> GetListaTabla(int IDTABLA, int IDPADRE, int SDETALLE)
+        [Route("precio/GetPrecio/{IdProducto:int}")]
+        public async Task<ActionResult<Response>> GetPrecio(int IdProducto)
         {
             Response response = new Response();
             object rpta = new object();
@@ -95,7 +62,7 @@ namespace Project.WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                rpta = await _tablamaestralogic.GetListaTabla(IDTABLA, IDPADRE, SDETALLE);
+                rpta = await _productologic.GetPrecio(IdProducto);
 
                 if (rpta == null)
                 {
@@ -112,8 +79,8 @@ namespace Project.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("tablaMaestra/GetListaTablaId/{IDDETALLE:int}")]
-        public async Task<ActionResult<Response>> GetListaTablaId(int IDDETALLE)
+        [Route("imagen/GetImagen/{IdProducto:int}")]
+        public async Task<ActionResult<Response>> GetImagen(int IdProducto)
         {
             Response response = new Response();
             object rpta = new object();
@@ -124,7 +91,65 @@ namespace Project.WebApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                rpta = await _tablamaestralogic.GetListaTablaId(IDDETALLE);
+                rpta = await _productologic.GetImagen(IdProducto);
+
+                if (rpta == null)
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception e)
+            {
+                response.Status = Constant.Error500;
+                response.Message = e.Message;
+                return Ok(response);
+            }
+            return Ok(rpta);
+        }
+
+        [HttpGet]
+        [Route("GetListaProductos/{Cod_Categoria:int}/{SProducto::maxlength(100)}")]
+        public async Task<ActionResult<Response>> GetListaProductos(int Cod_Categoria, string SProducto)
+        {
+            Response response = new Response();
+            object rpta = new object();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                rpta = await _productologic.ListarProductos(Cod_Categoria, SProducto);
+
+                if (rpta == null)
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception e)
+            {
+                response.Status = Constant.Error500;
+                response.Message = e.Message;
+                return Ok(response);
+            }
+            return Ok(rpta);
+        }
+
+        [HttpGet]
+        [Route("tag/GetListaTags/{IdProducto:int}")]
+        public async Task<ActionResult<Response>> GetListaTags(int IdProducto)
+        {
+            Response response = new Response();
+            object rpta = new object();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                rpta = await _productologic.GetListaTags(IdProducto);
 
                 if (rpta == null)
                 {
@@ -141,8 +166,8 @@ namespace Project.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("tablaMaestra/PostTabla")]
-        public async Task<ActionResult<Response>> PostTabla([FromBody] TablaMaestra tablaMaestra)
+        [Route("UpdProducto")]
+        public async Task<ActionResult<Response>> UpdProducto([FromBody] Producto producto)
         {
             Response response = new Response();
             object rpta = new object();
@@ -152,95 +177,8 @@ namespace Project.WebApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
-                rpta = await _tablamaestralogic.PostTabla(tablaMaestra);
-
-                if (rpta == null)
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception e)
-            {
-                response.Status = Constant.Error500;
-                response.Message = e.Message;
-                return Ok(response);
-            }
-            return Ok(rpta);
-        }
-
-        [HttpGet]
-        [Route("user/GetUserFilter/{page:int}/{rows:int}/{userlogin:maxlength(20)}/{name:maxlength(120)}/{estate:int}")]
-        public async Task<ActionResult<Response>> GetUserFilter(int page, int rows, string userlogin, string name, string estate)
-        {
-            Response response = new Response();
-            object rpta = new object();
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                rpta = await _userlogic.UserFilter(page, rows, userlogin, name, estate);
-
-                if (rpta == null)
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception e)
-            {
-                response.Status = Constant.Error500;
-                response.Message = e.Message;
-                return Ok(response);
-            }
-            return Ok(rpta);
-        }
-
-        [HttpGet]
-        [Route("user/GetUserId/{userid:int}")]
-        public async Task<ActionResult<Response>> GetUserId(int userid)
-        {
-            Response response = new Response();
-            object rpta = new object();
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                rpta = await _userlogic.GetUserId(userid);
-
-                if (rpta == null)
-                {
-                    return NotFound();
-                }
-            }
-            catch (Exception e)
-            {
-                response.Status = Constant.Error500;
-                response.Message = e.Message;
-                return Ok(response);
-            }
-            return Ok(rpta);
-        }
-
-
-        [HttpPost]
-        [Route("user/PostUserMnt")]
-        public async Task<ActionResult<Response>> PostUserMnt([FromBody] User user)
-        {
-            Response response = new Response();
-            object rpta = new object();
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                rpta = await _userlogic.UserMnt(user);
+                producto = (Producto)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(producto, producto.GetType());
+                rpta = await _productologic.UpdProducto(producto);
 
                 if (rpta == null)
                 {
@@ -257,8 +195,8 @@ namespace Project.WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("WriteOperation")]
-        public async Task<ActionResult<Response>> WriteOperation([FromBody] WriteOperation writeOperation)
+        [Route("precio/UpdPrecio")]
+        public async Task<ActionResult<Response>> UpdPrecio([FromBody] Precio precio)
         {
             Response response = new Response();
             object rpta = new object();
@@ -268,9 +206,65 @@ namespace Project.WebApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                precio = (Precio)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(precio, precio.GetType());
+                rpta = await _productologic.UpdPrecio(precio);
 
-                writeOperation = (WriteOperation)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(writeOperation, writeOperation.GetType());
-                rpta = await _writeoperationlogic.WriteOperation(writeOperation);
+                if (rpta == null)
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception e)
+            {
+                response.Status = Constant.Error500;
+                response.Message = e.Message;
+                return Ok(response);
+            }
+            return Ok(rpta);
+        }
+        [HttpPost]
+        [Route("imagen/UpdImagen")]
+        public async Task<ActionResult<Response>> UpdImagen([FromBody] ImagenProducto imagenProducto)
+        {
+            Response response = new Response();
+            object rpta = new object();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                imagenProducto = (ImagenProducto)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(imagenProducto, imagenProducto.GetType());
+                rpta = await _productologic.UpdImagen(imagenProducto);
+
+                if (rpta == null)
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception e)
+            {
+                response.Status = Constant.Error500;
+                response.Message = e.Message;
+                return Ok(response);
+            }
+            return Ok(rpta);
+        }
+
+        [HttpPost]
+        [Route("tag/UpdTag")]
+        public async Task<ActionResult<Response>> UpdTag([FromBody] TagProducto tag)
+        {
+            Response response = new Response();
+            object rpta = new object();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                tag = (TagProducto)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(tag, tag.GetType());
+                rpta = await _productologic.UpdTag(tag);
 
                 if (rpta == null)
                 {

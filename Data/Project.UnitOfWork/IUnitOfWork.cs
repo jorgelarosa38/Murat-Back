@@ -9,5 +9,10 @@ namespace Project.UnitOfWork
         ISecurityRepository Security { get; }
         IWriteOperationRepository WriteOperation { get; }
         IUserRepository User { get; }
+        IPublicadoRepository Publicado { get; }
+        ICommonRepository Common { get; }
+        ISliderRepository Slider { get; }
+        IMarcaRepository Marca { get; }
+        IProductoRepository Producto { get; }
     }
 }

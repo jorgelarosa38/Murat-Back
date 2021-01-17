@@ -26,7 +26,6 @@ namespace Project.DataAccess
             parameters.Add("@USUARIO", credenciales.usuario);
             parameters.Add("@CONTRASENA", credenciales.contraseña);
 
-
             using (var connection = new SqlConnection(_connectionString))
             {
                 SqlMapper.GridReader reader = await connection.QueryMultipleAsync("[dbo].[SPE_LIST_EXT_LOGIN]", parameters, commandType: System.Data.CommandType.StoredProcedure);
