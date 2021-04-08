@@ -23,7 +23,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<TablaMaestra>("[dbo].[SPE_LIST_TABLA_ID]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<TablaMaestra>("[dbo].[SP_LIST_TABLA_ID]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
             }
         }
 

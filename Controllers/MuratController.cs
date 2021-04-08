@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Project.BusinessLogic.Interfaces;
 using Project.Models;
@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Project.WebApi.Controllers
 {
+    [EnableCors("AllowedOrigins")]
     [Produces("application/json")]
-    [Route("api/[controller]/Services")]
+    [Route("api/[controller]")]
     [ApiController]
     public class MuratController : Controller
     {
@@ -29,15 +30,9 @@ namespace Project.WebApi.Controllers
         [Route("combo/ListarCombo/{TIPO:int}/{PARM1:maxlength(50)}/{PARM2:maxlength(50)}/{PARM3:maxlength(50)}/{PARM4:maxlength(50)}/{VALOR:int}")]
         public async Task<ActionResult<Response>> ListarCombo(int TIPO, string PARM1, string PARM2, string PARM3, string PARM4, int VALOR)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _combologic.ListarCombo(TIPO, PARM1, PARM2, PARM3, PARM4, VALOR);
 
                 if (rpta == null)
@@ -47,6 +42,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -57,15 +53,9 @@ namespace Project.WebApi.Controllers
         [Route("tablaMaestra/GetTablaMaestra/{IDTABLA:int}")]
         public async Task<ActionResult<Response>> GetTablaMaestra(int IDTABLA)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _tablamaestralogic.GetTablaMaestra(IDTABLA);
 
                 if (rpta == null)
@@ -75,6 +65,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -86,15 +77,9 @@ namespace Project.WebApi.Controllers
         [Route("tablaMaestra/GetListaTabla/{IDTABLA:int}/{IDPADRE:int}/{SDETALLE:maxlength(100)}")]
         public async Task<ActionResult<Response>> GetListaTabla(int IDTABLA, int IDPADRE, int SDETALLE)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _tablamaestralogic.GetListaTabla(IDTABLA, IDPADRE, SDETALLE);
 
                 if (rpta == null)
@@ -104,6 +89,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -115,15 +101,9 @@ namespace Project.WebApi.Controllers
         [Route("tablaMaestra/GetListaTablaId/{IDDETALLE:int}")]
         public async Task<ActionResult<Response>> GetListaTablaId(int IDDETALLE)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _tablamaestralogic.GetListaTablaId(IDDETALLE);
 
                 if (rpta == null)
@@ -133,6 +113,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -144,15 +125,9 @@ namespace Project.WebApi.Controllers
         [Route("tablaMaestra/PostTabla")]
         public async Task<ActionResult<Response>> PostTabla([FromBody] TablaMaestra tablaMaestra)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _tablamaestralogic.PostTabla(tablaMaestra);
 
                 if (rpta == null)
@@ -162,6 +137,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -173,14 +149,9 @@ namespace Project.WebApi.Controllers
         [Route("user/GetUserFilter/{page:int}/{rows:int}/{userlogin:maxlength(20)}/{name:maxlength(120)}/{estate:int}")]
         public async Task<ActionResult<Response>> GetUserFilter(int page, int rows, string userlogin, string name, string estate)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
                 rpta = await _userlogic.UserFilter(page, rows, userlogin, name, estate);
 
                 if (rpta == null)
@@ -190,6 +161,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -201,15 +173,9 @@ namespace Project.WebApi.Controllers
         [Route("user/GetUserId/{userid:int}")]
         public async Task<ActionResult<Response>> GetUserId(int userid)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _userlogic.GetUserId(userid);
 
                 if (rpta == null)
@@ -219,6 +185,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -231,15 +198,9 @@ namespace Project.WebApi.Controllers
         [Route("user/PostUserMnt")]
         public async Task<ActionResult<Response>> PostUserMnt([FromBody] User user)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _userlogic.UserMnt(user);
 
                 if (rpta == null)
@@ -249,6 +210,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -260,15 +222,9 @@ namespace Project.WebApi.Controllers
         [Route("WriteOperation")]
         public async Task<ActionResult<Response>> WriteOperation([FromBody] WriteOperation writeOperation)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 writeOperation = (WriteOperation)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(writeOperation, writeOperation.GetType());
                 rpta = await _writeoperationlogic.WriteOperation(writeOperation);
 
@@ -279,6 +235,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);

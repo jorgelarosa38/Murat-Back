@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Project.BusinessLogic.Interfaces;
 using Project.Models;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Project.WebApi.Controllers
 {
+    [EnableCors("AllowedOrigins")]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [Authorize]
@@ -25,14 +27,9 @@ namespace Project.WebApi.Controllers
         [Route("UpdPublicado")]
         public async Task<ActionResult<Response>> UpdPublicado([FromBody] Publicado publicado)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
                 publicado = (Publicado)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(publicado, publicado.GetType());
                 rpta = await _publicadologic.UpdPublicado(publicado);
 
@@ -43,6 +40,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -54,15 +52,9 @@ namespace Project.WebApi.Controllers
         [Route("GetPublicadoID/{Cod_Operacion:int}/{IdDato:int}")]
         public async Task<ActionResult<Response>> GetPublicadoID(int Cod_Operacion, int IdDato)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _publicadologic.GetPublicadoID(Cod_Operacion, IdDato);
 
                 if (rpta == null)
@@ -72,6 +64,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -83,15 +76,9 @@ namespace Project.WebApi.Controllers
         [Route("GetPublicado/{Cod_Operacion:int}")]
         public async Task<ActionResult<Response>> GetPublicado(int Cod_Operacion)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _publicadologic.GetPublicado(Cod_Operacion);
 
                 if (rpta == null)
@@ -101,6 +88,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);

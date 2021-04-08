@@ -4,25 +4,16 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
-using System.Xml;
-using System.Xml.Serialization;
 using static Project.BusinessLogic.Utilities.Constant;
 
 namespace Project.BusinessLogic.Utilities
 {
     public class AuxiliarMethods
     {
-        public static string ImageToBase64(string ImagenPath)
-        {
-            string path = "../Imagenes/Slider/Producto/" + ImagenPath;
-            byte[] imageArray = System.IO.File.ReadAllBytes(path);
-            return Convert.ToBase64String(imageArray);
-        }
-
         public static void Base64ToImage(string binary, string ImagePath, string Category)
         {
             var img = Image.FromStream(new MemoryStream(Convert.FromBase64String(binary)));
-            var path = Path.Combine(@"C:/WEB/TiendaVirtual/Slider", Category, ImagePath);
+            var path = Path.Combine(@"D:/WEB/TiendaVirtual/Slider", Category, ImagePath);
             if (File.Exists(path))
             {
                 File.Delete(path);
@@ -34,21 +25,6 @@ namespace Project.BusinessLogic.Utilities
         {
             string url = Path.Combine(url_imagenes, categoria, ImageName);
             return url;
-        }
-
-        internal static FiltroProducto ValidarFiltros(FiltroProducto filtroProducto)
-        {
-            filtroProducto.STag = filtroProducto.STag.Trim().ToUpper();
-            if (!((filtroProducto.IdCategoria.Trim()).Length > 0))
-                filtroProducto.IdCategoria = "000";
-
-            if (!((filtroProducto.IdMarca.Trim()).Length > 0))
-                filtroProducto.IdMarca = "000";
-
-            if (filtroProducto.Precio_Fin == 0)
-                filtroProducto.Precio_Fin = 9999;
-
-            return filtroProducto;
         }
 
         public static object ValidateParameters(object obj, Type model)

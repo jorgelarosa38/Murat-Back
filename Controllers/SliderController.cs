@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Project.BusinessLogic.Interfaces;
 using Project.Models;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Project.WebApi.Controllers
 {
+    [EnableCors("AllowedOrigins")]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [Authorize]
@@ -24,15 +26,9 @@ namespace Project.WebApi.Controllers
         [Route("GetSliders/{Cod_Tipo:int}")]
         public async Task<ActionResult<Response>> GetSliders(string Cod_Tipo)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _sliderlogic.GetSliders(Cod_Tipo);
 
                 if (rpta == null)
@@ -42,6 +38,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -53,14 +50,9 @@ namespace Project.WebApi.Controllers
         [Route("UpdSlider")]
         public async Task<ActionResult<Response>> UpdSlider([FromBody] Slider slider)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
                 slider = (Slider)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(slider, slider.GetType());
                 rpta = await _sliderlogic.UpdSlider(slider);
 
@@ -71,13 +63,12 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
             }
             return Ok(rpta);
         }
-
-
     }
 }

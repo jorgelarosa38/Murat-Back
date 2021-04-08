@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Project.BusinessLogic.Interfaces;
 using Project.Models;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Project.WebApi.Controllers
 {
+    [EnableCors("AllowedOrigins")]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [Authorize]
@@ -24,15 +26,9 @@ namespace Project.WebApi.Controllers
         [Route("GetMarcas/{SMarca:maxlength(100)}")]
         public async Task<ActionResult<Response>> GetMarcas(string SMarca)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
                 rpta = await _marcalogic.GetMarcas(SMarca);
 
                 if (rpta == null)
@@ -42,6 +38,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
@@ -53,15 +50,9 @@ namespace Project.WebApi.Controllers
         [Route("UpdMarca")]
         public async Task<ActionResult<Response>> UpdMarca([FromBody] Marca marca)
         {
-            Response response = new Response();
             object rpta = new object();
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                marca = (Marca)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(marca, marca.GetType());
                 rpta = await _marcalogic.UpdMarca(marca);
 
                 if (rpta == null)
@@ -71,6 +62,7 @@ namespace Project.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Response response = new Response();
                 response.Status = Constant.Error500;
                 response.Message = e.Message;
                 return Ok(response);
