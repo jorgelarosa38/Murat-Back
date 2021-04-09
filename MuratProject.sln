@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30406.217
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Murat.WebApi", "Murat.WebApi.csproj", "{5AFB73AF-D5B2-4495-B22D-E5ACD748A729}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Murat.WebApi", "Murat.WebApi.csproj", "{5AFB73AF-D5B2-4495-B22D-E5ACD748A729}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{F86F6C3F-1D8C-4C1C-ADB8-B010FDCAA968}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{35A18ADA-60F7-4E1D-BA1B-8202C112E416}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.BusinessLogic", "Data\Project.BusinessLogic\Project.BusinessLogic.csproj", "{71DF5769-31AD-474B-892D-82E341A7BE05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.BusinessLogic", "Data\Project.BusinessLogic\Project.BusinessLogic.csproj", "{71DF5769-31AD-474B-892D-82E341A7BE05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.DataAccess", "Data\Project.DataAccess\Project.DataAccess.csproj", "{CC5262EE-D168-44F4-8D8B-1F85AE4958E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.DataAccess", "Data\Project.DataAccess\Project.DataAccess.csproj", "{CC5262EE-D168-44F4-8D8B-1F85AE4958E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Models", "Data\Project.Models\Project.Models.csproj", "{F9603D0A-3994-45D6-B255-8103B9199325}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Models", "Data\Project.Models\Project.Models.csproj", "{F9603D0A-3994-45D6-B255-8103B9199325}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.Repository", "Data\Project.Repository\Project.Repository.csproj", "{E8F4A3A6-2002-4415-835D-48A596A3DC75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.Repository", "Data\Project.Repository\Project.Repository.csproj", "{E8F4A3A6-2002-4415-835D-48A596A3DC75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project.UnitOfWork", "Data\Project.UnitOfWork\Project.UnitOfWork.csproj", "{C21675D1-6B91-4052-AAE3-3E4BC24F84DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project.UnitOfWork", "Data\Project.UnitOfWork\Project.UnitOfWork.csproj", "{C21675D1-6B91-4052-AAE3-3E4BC24F84DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

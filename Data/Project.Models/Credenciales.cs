@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project.Models
 {
     public class Credenciales
     {
+        [Required]
         public string usuario { get; set; }
+        [Required]
         public string contraseña { get; set; }
     }
     public class OauthAccess

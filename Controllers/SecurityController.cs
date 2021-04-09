@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Cors;
 
 namespace Project.WebApi.Controllers
 {
-    [EnableCors("AllowedOrigins")]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
