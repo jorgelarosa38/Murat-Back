@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Project.DataAccess
 {
@@ -28,7 +29,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<Combo>("[dbo].[SPE_LIST_COMBO]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<Combo>("[dbo].[SPE_LIST_COMBO]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
     }

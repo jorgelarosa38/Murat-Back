@@ -28,7 +28,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<User>("[dbo].[User_Filter]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<User>("[dbo].[User_Filter]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -63,7 +63,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SP_UDP_USER]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SP_UDP_USER]", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -76,7 +76,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<User>("[dbo].[User_Id]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<User>("[dbo].[User_Id]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Project.DataAccess
 {
@@ -24,7 +25,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<Precio>("[dbo].[SPE_LIST_EXT_PRODUCTO_PRECIO]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<Precio>("[dbo].[SPE_LIST_EXT_PRODUCTO_PRECIO]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -35,7 +36,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<Producto>("[dbo].[SPE_LIST_PRODUCTO]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<Producto>("[dbo].[SPE_LIST_PRODUCTO]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -47,7 +48,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<Producto>("[dbo].[SPE_LIST_EXT_PRODUCTO]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<Producto>("[dbo].[SPE_LIST_EXT_PRODUCTO]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -73,7 +74,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_PRODUCTO]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_PRODUCTO]", parameters, commandType: CommandType.StoredProcedure);
             }
         }
         public async Task<ResponseSql> UpdPrecio(Precio precio)
@@ -93,7 +94,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_PRODUCTO_PRECIO]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_PRODUCTO_PRECIO]", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -104,7 +105,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<ImagenProducto>("[dbo].[SPE_LIST_EXT_PRODUCTO_IMAGEN]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<ImagenProducto>("[dbo].[SPE_LIST_EXT_PRODUCTO_IMAGEN]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -123,7 +124,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_PRODUCTO_IMAGEN]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_PRODUCTO_IMAGEN]", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -140,7 +141,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_PRODUCTO_TAG]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_PRODUCTO_TAG]", parameters, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -151,7 +152,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<TagProducto>("[dbo].[SPE_LIST_EXT_PRODUCTO_TAG]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<TagProducto>("[dbo].[SPE_LIST_EXT_PRODUCTO_TAG]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
     }

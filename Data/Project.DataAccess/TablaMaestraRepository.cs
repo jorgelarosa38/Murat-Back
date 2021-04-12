@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Project.DataAccess
 {
@@ -23,7 +24,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<TablaMaestra>("[dbo].[SP_LIST_TABLA_ID]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<TablaMaestra>("[dbo].[SP_LIST_TABLA_ID]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -36,7 +37,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<TablaMaestraIDOut>("[dbo].[SPE_LIST_TABLA]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<TablaMaestraIDOut>("[dbo].[SPE_LIST_TABLA]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -47,7 +48,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<TablaMaestraIDOut>("[dbo].[SPE_LIST_TABLA_ID]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<TablaMaestraIDOut>("[dbo].[SPE_LIST_TABLA_ID]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -65,7 +66,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_TABLA_DETALLE]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_TABLA_DETALLE]", parameters, commandType: CommandType.StoredProcedure);
             }
         }
     }

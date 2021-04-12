@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Project.DataAccess
 {
@@ -24,7 +25,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<ExtPublicado>("[dbo].[SPE_LIST_EXT_PUBLICAR]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<ExtPublicado>("[dbo].[SPE_LIST_EXT_PUBLICAR]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -40,7 +41,7 @@ namespace Project.DataAccess
 
                 if (cod_Operacion.Equals(1396))
                 {
-                    SqlMapper.GridReader reader = await connection.QueryMultipleAsync("[dbo].[SPE_LIST_EXT_PUBLICAR_ID]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    SqlMapper.GridReader reader = await connection.QueryMultipleAsync("[dbo].[SPE_LIST_EXT_PUBLICAR_ID]", parameters, commandType: CommandType.StoredProcedure);
                     List<PublicadoProducto> ListPubProd = reader.Read<PublicadoProducto>().ToList();
                     List<PubColor> PubColor = reader.Read<PubColor>().ToList();
                     List<PubImagen> PubImagen = reader.Read<PubImagen>().ToList();
@@ -62,28 +63,26 @@ namespace Project.DataAccess
                 }
                 else if (cod_Operacion.Equals(1397))
                 {
-                    SqlMapper.GridReader reader = await connection.QueryMultipleAsync("[dbo].[SPE_LIST_EXT_PUBLICAR_ID]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    SqlMapper.GridReader reader = await connection.QueryMultipleAsync("[dbo].[SPE_LIST_EXT_PUBLICAR_ID]", parameters, commandType: CommandType.StoredProcedure);
                     List<PublicadoMarca> ListPubMarca = reader.Read<PublicadoMarca>().ToList();
 
                     if (ListPubMarca.Count() > 0)
                     {
                         return ListPubMarca;
                     }
-                    //result = (await connection.QueryAsync<PublicadoMarca>("[dbo].[SPE_LIST_EXT_PUBLICAR_ID]", parameters, commandType: System.Data.CommandType.StoredProcedure)); ;
+                    //result = (await connection.QueryAsync<PublicadoMarca>("[dbo].[SPE_LIST_EXT_PUBLICAR_ID]", parameters, commandType: CommandType.StoredProcedure)); ;
 
                     return null;
                 }
                 else if (cod_Operacion.Equals(1398))
                 {
-                    SqlMapper.GridReader reader = await connection.QueryMultipleAsync("[dbo].[SPE_LIST_EXT_PUBLICAR_ID]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    SqlMapper.GridReader reader = await connection.QueryMultipleAsync("[dbo].[SPE_LIST_EXT_PUBLICAR_ID]", parameters, commandType: CommandType.StoredProcedure);
                     List<PublicadoSlider> ListPubSlider = reader.Read<PublicadoSlider>().ToList();
                     if (ListPubSlider.Count() > 0)
                     {
-
-
                         return ListPubSlider;
                     }
-                    //return (await connection.QueryAsync<PublicadoSlider>("[dbo].[SPE_LIST_EXT_PUBLICAR_ID]", parameters, commandType: System.Data.CommandType.StoredProcedure));
+                    //return (await connection.QueryAsync<PublicadoSlider>("[dbo].[SPE_LIST_EXT_PUBLICAR_ID]", parameters, commandType: CommandType.StoredProcedure));
                     return null;
                 }
                 return null;
@@ -98,7 +97,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_PUBLICAR]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_PUBLICAR]", parameters, commandType: CommandType.StoredProcedure);
             }
         }
     }

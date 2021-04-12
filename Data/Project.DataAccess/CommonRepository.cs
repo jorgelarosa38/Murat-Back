@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Project.DataAccess
 {
@@ -25,7 +26,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<MenuBar>("[dbo].[SPE_LIST_MENU]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<MenuBar>("[dbo].[SPE_LIST_MENU]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -39,7 +40,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                SqlMapper.GridReader reader = await connection.QueryMultipleAsync("[dbo].[SPE_LIST_NRO_IMAGEN]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                SqlMapper.GridReader reader = await connection.QueryMultipleAsync("[dbo].[SPE_LIST_NRO_IMAGEN]", parameters, commandType: CommandType.StoredProcedure);
                 List<ListNroImagen> ListNroImagen = reader.Read<ListNroImagen>().ToList();
                 List<Archivo> ListArchivo = reader.Read<Archivo>().ToList();
 

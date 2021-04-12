@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Project.DataAccess
 {
@@ -24,7 +25,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return (await connection.QueryAsync<Marca>("[dbo].[SPE_LIST_EXT_MARCA]", parameters, commandType: System.Data.CommandType.StoredProcedure)).ToList();
+                return (await connection.QueryAsync<Marca>("[dbo].[SPE_LIST_EXT_MARCA]", parameters, commandType: CommandType.StoredProcedure)).ToList();
             }
         }
 
@@ -41,7 +42,7 @@ namespace Project.DataAccess
 
             using (var connection = new SqlConnection(_connectionString))
             {
-                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_MARCA]", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                return await connection.QueryFirstAsync<ResponseSql>("[dbo].[SPE_UDP_EXT_MARCA]", parameters, commandType: CommandType.StoredProcedure);
             }
         }
     }
