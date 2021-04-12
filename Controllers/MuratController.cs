@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Project.WebApi.Controllers
 {
-    [EnableCors("AllowedOrigins")]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
