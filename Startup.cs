@@ -38,7 +38,18 @@ namespace MuratProject
                 options.AddPolicy(MyAllowedOrigin,
                     builder =>
                     {
-                        builder.WithOrigins(Configuration["AppSettings:AllowedOrigins"].Split(";")).AllowCredentials().AllowAnyMethod().AllowAnyHeader();
+                        builder.WithOrigins(Configuration["AppSettings:Origins"].Split(";"))
+                        .AllowCredentials()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                    });
+                options.AddPolicy("LocalHost",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                        .AllowCredentials()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                     });
             });
             #endregion
@@ -106,7 +117,7 @@ namespace MuratProject
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(MyAllowedOrigin);
+            app.UseCors();
             app.UseHttpsRedirection();
             if (env.IsDevelopment())
             {

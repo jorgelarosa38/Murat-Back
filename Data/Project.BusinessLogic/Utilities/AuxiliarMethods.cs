@@ -35,7 +35,6 @@ namespace Project.BusinessLogic.Utilities
                 var Valor = property.GetValue(obj);
                 if (Valor == null)
                 {
-
                     var type = (property.Name).GetType().ToString();
                     switch (type)
                     {
