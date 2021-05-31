@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Project.BusinessLogic.Interfaces;
 using Project.Models;
-using ProjectMurat.Utilities;
+using Murat.WebApi.Utilities;
 using System;
 using System.Threading.Tasks;
+using static Project.BusinessLogic.Utilities.AuxiliarMethods;
 
-namespace Project.WebApi.Controllers
+namespace Murat.WebApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -52,7 +52,7 @@ namespace Project.WebApi.Controllers
             object rpta = new object();
             try
             {
-                slider = (Slider)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(slider, slider.GetType());
+                slider = (Slider)ValidateParameters(slider, slider.GetType());
                 rpta = await _sliderlogic.UpdSlider(slider);
 
                 if (rpta == null)

@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project.BusinessLogic.Interfaces;
 using Project.Models;
-using ProjectMurat.Utilities;
+using Murat.WebApi.Utilities;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
+using static Project.BusinessLogic.Utilities.AuxiliarMethods;
 
-namespace Project.WebApi.Controllers
+namespace Murat.WebApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -29,7 +29,7 @@ namespace Project.WebApi.Controllers
             object rpta = new object();
             try
             {
-                credenciales = (Credenciales)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(credenciales, credenciales.GetType());
+                credenciales = (Credenciales)ValidateParameters(credenciales, credenciales.GetType());
                 rpta = await _securitylogic.ValidarAccesos(credenciales);
 
                 if (rpta == null)

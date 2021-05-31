@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
@@ -19,8 +14,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Project.BusinessLogic.Helpers;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using static Murat.WebApi.Utilities.AESstring;
 
-namespace MuratProject
+namespace Murat.WebApi
 {
     public class Startup
     {
@@ -72,7 +68,7 @@ namespace MuratProject
 
             #region SQL CONNECTION
             services.AddSingleton<IUnitOfWork>(option => new ProjectUnitOfWork(
-            Configuration.GetConnectionString("Project"), Configuration
+            DecryptAES(Configuration.GetConnectionString("Project")), Configuration
             ));
             #endregion
 

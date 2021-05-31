@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Project.BusinessLogic.Interfaces;
 using Project.Models;
-using ProjectMurat.Utilities;
+using Murat.WebApi.Utilities;
 using System;
 using System.Threading.Tasks;
+using static Project.BusinessLogic.Utilities.AuxiliarMethods;
 
-namespace Project.WebApi.Controllers
+namespace Murat.WebApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -29,7 +29,7 @@ namespace Project.WebApi.Controllers
             object rpta = new object();
             try
             {
-                publicado = (Publicado)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(publicado, publicado.GetType());
+                publicado = (Publicado)ValidateParameters(publicado, publicado.GetType());
                 rpta = await _publicadologic.UpdPublicado(publicado);
 
                 if (rpta == null)

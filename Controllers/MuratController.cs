@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Project.BusinessLogic.Interfaces;
 using Project.Models;
-using ProjectMurat.Utilities;
+using Murat.WebApi.Utilities;
 using System;
 using System.Threading.Tasks;
+using static Project.BusinessLogic.Utilities.AuxiliarMethods;
 
-namespace Project.WebApi.Controllers
+namespace Murat.WebApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -224,7 +224,7 @@ namespace Project.WebApi.Controllers
             object rpta = new object();
             try
             {
-                writeOperation = (WriteOperation)BusinessLogic.Utilities.AuxiliarMethods.ValidateParameters(writeOperation, writeOperation.GetType());
+                writeOperation = (WriteOperation)ValidateParameters(writeOperation, writeOperation.GetType());
                 rpta = await _writeoperationlogic.WriteOperation(writeOperation);
 
                 if (rpta == null)

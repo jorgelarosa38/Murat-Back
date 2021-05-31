@@ -1,4 +1,4 @@
-﻿namespace ProjectMurat.Utilities
+﻿namespace Murat.WebApi.Utilities
 {
     public class Constant
     {
