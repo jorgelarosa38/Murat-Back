@@ -11,7 +11,6 @@ namespace Project.BusinessLogic.Helpers
     {
         public static string GenerateToken(DetalleUsuario detalleUsuario, string secret)
         {
-            secret = "bXVyYXRTZXJ2aWNlc19Qcm9qZWN0";
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secret);
             var tokenDescriptor = new SecurityTokenDescriptor

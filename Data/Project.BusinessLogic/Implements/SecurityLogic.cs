@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Project.BusinessLogic.Helpers;
 using Project.BusinessLogic.Interfaces;
 using Project.BusinessLogic.Utilities;
@@ -13,12 +14,12 @@ namespace Project.BusinessLogic.Implementations
     public class SecurityLogic : ISecurityLogic
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly AppSettings _appSettings;
+        private readonly IConfiguration _config;
 
-        public SecurityLogic(IUnitOfWork unitOfWork, IOptions<AppSettings> appSettings)
+        public SecurityLogic(IUnitOfWork unitOfWork, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
-            _appSettings = appSettings.Value;
+            _config = config;
         }
         public async Task<Response> ValidarAccesos(Credenciales credenciales)
         {
@@ -30,7 +31,7 @@ namespace Project.BusinessLogic.Implementations
 
                 if (list != null)
                 {
-                    var secret = _appSettings.Secret;
+                    var secret = _config.GetSection("AppSettings").GetSection("Secret").Value;
                     string token = TokenGenerator.GenerateToken(list[0], secret);
                     oauth.token = token;
                     oauth.UserAccess = list;

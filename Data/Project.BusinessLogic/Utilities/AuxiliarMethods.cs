@@ -10,10 +10,10 @@ namespace Project.BusinessLogic.Utilities
 {
     public class AuxiliarMethods
     {
-        public static void Base64ToImage(string binary, string ImagePath, string Category)
+        public static void Base64ToImage(string directory, string binary, string ImagePath, string Category)
         {
             var img = Image.FromStream(new MemoryStream(Convert.FromBase64String(binary)));
-            var path = Path.Combine(@"D:/WEB/TiendaVirtual/Slider", Category, ImagePath);
+            var path = Path.Combine(directory, Category, ImagePath);
             if (File.Exists(path))
             {
                 File.Delete(path);
@@ -21,9 +21,9 @@ namespace Project.BusinessLogic.Utilities
             img.Save(path);
         }
 
-        public static string GenerarURL(string categoria, string ImageName)
+        public static string GenerarURL(string directory, string categoria, string ImageName)
         {
-            string url = Path.Combine(url_imagenes, categoria, ImageName);
+            string url = Path.Combine(directory, categoria, ImageName);
             return url;
         }
 

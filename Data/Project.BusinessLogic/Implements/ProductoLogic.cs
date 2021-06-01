@@ -1,4 +1,5 @@
-﻿using Project.BusinessLogic.Interfaces;
+﻿using Microsoft.Extensions.Configuration;
+using Project.BusinessLogic.Interfaces;
 using Project.BusinessLogic.Utilities;
 using Project.Models;
 using Project.UnitOfWork;
@@ -11,9 +12,11 @@ namespace Project.BusinessLogic.Implementations
     public class ProductoLogic : IProductoLogic
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProductoLogic(IUnitOfWork unitOfWork)
+        private readonly IConfiguration _config;
+        public ProductoLogic(IUnitOfWork unitOfWork, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
+            _config = config;
         }
 
         public async Task<object> GetPrecio(int idProducto)
@@ -79,16 +82,17 @@ namespace Project.BusinessLogic.Implementations
 
                 if (list.Count > 0)
                 {
+                    string directory = _config.GetSection("AppSettings").GetSection("directory").Value;
                     foreach (var item in list)
                     {
                         if (item.SArchivo_Talla != "")
                         {
-                            item.UrlImagen_Talla = AuxiliarMethods.GenerarURL("Producto", item.SArchivo_Talla);
+                            item.UrlImagen_Talla = AuxiliarMethods.GenerarURL(directory, "Producto", item.SArchivo_Talla);
                         }
 
                         if (item.SArchivo_Producto != "")
                         {
-                            item.UrlImagen_Producto = AuxiliarMethods.GenerarURL("Producto", item.SArchivo_Producto);
+                            item.UrlImagen_Producto = AuxiliarMethods.GenerarURL(directory, "Producto", item.SArchivo_Producto);
                         }
                     }
                     response.Status = Constant.Status;
@@ -118,13 +122,14 @@ namespace Project.BusinessLogic.Implementations
             {
                 if (producto.ACCION == "A" || producto.ACCION == "M")
                 {
+                    string directory = _config.GetSection("AppSettings").GetSection("directory").Value;
                     if (producto.BImagen_Talla != "" && producto.SArchivo_Talla != "")
                     {
-                        AuxiliarMethods.Base64ToImage(producto.BImagen_Talla, producto.SArchivo_Talla, "Producto");
+                        AuxiliarMethods.Base64ToImage(directory, producto.BImagen_Talla, producto.SArchivo_Talla, "Producto");
                     }
                     if (producto.BImagen_Producto != "" && producto.SArchivo_Producto != "")
                     {
-                        AuxiliarMethods.Base64ToImage(producto.BImagen_Producto, producto.SArchivo_Producto, "Producto");
+                        AuxiliarMethods.Base64ToImage(directory, producto.BImagen_Producto, producto.SArchivo_Producto, "Producto");
                     }
                 }
                 responsesql = await _unitOfWork.Producto.UpdProducto(producto);
@@ -170,11 +175,12 @@ namespace Project.BusinessLogic.Implementations
 
                 if (list.Count > 0)
                 {
+                    string directory = _config.GetSection("AppSettings").GetSection("directory").Value;
                     foreach (var item in list)
                     {
                         if (item.SArchivo != "")
                         {
-                            string url_imagen = AuxiliarMethods.GenerarURL("Producto", item.SArchivo);
+                            string url_imagen = AuxiliarMethods.GenerarURL(directory, "Producto", item.SArchivo);
                             item.UrlImagen = url_imagen;
                         }
                     }
@@ -205,9 +211,10 @@ namespace Project.BusinessLogic.Implementations
             {
                 if (imagenProducto.ACCION == "A" || imagenProducto.ACCION == "M")
                 {
+                    string directory = _config.GetSection("AppSettings").GetSection("directory").Value;
                     if (imagenProducto.SArchivo != "" && imagenProducto.BImagen != "")
                     {
-                        AuxiliarMethods.Base64ToImage(imagenProducto.BImagen, imagenProducto.SArchivo, "Producto");
+                        AuxiliarMethods.Base64ToImage(directory, imagenProducto.BImagen, imagenProducto.SArchivo, "Producto");
                     }
                 }
 

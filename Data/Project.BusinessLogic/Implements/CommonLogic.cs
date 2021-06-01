@@ -1,4 +1,5 @@
-﻿using Project.BusinessLogic.Interfaces;
+﻿using Microsoft.Extensions.Configuration;
+using Project.BusinessLogic.Interfaces;
 using Project.BusinessLogic.Utilities;
 using Project.Models;
 using Project.UnitOfWork;
@@ -11,9 +12,11 @@ namespace Project.BusinessLogic.Implementations
     public class CommonLogic : ICommonLogic
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CommonLogic(IUnitOfWork unitOfWork)
+        private readonly IConfiguration _config;
+        public CommonLogic(IUnitOfWork unitOfWork, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
+            _config = config;
         }
 
         public async Task<object> GetNroImagen(int tipo, int id1, int id2, int id3)
@@ -25,6 +28,7 @@ namespace Project.BusinessLogic.Implementations
 
                 if (list.Count > 0)
                 {
+                    string directory = _config.GetSection("AppSettings").GetSection("directory").Value;
                     foreach (var imagen in list)
                     {
                         foreach (var item in imagen.Archivo_Imagenes)
@@ -33,7 +37,7 @@ namespace Project.BusinessLogic.Implementations
                             if (tipo == 2)
                                 categoria = "Slider";
 
-                            item.Url_Imagen = AuxiliarMethods.GenerarURL(categoria, item.SArchivo);
+                            item.Url_Imagen = AuxiliarMethods.GenerarURL(directory, categoria, item.SArchivo);
                         }
                     }
 

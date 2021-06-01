@@ -20,7 +20,10 @@ namespace Murat.WebApi
 {
     public class Startup
     {
-        private readonly string MyAllowedOrigin = "_MyOriginPolicy";
+        private readonly string OriginList = "http://localhost:4200;https://antaminka.com;https://antaminka.pe;http://antaminka.com;" +
+            "http://antaminka.pe;http://antaminka.murat.pe;http://admin.antaminka.pe;https://www.antaminka.com;https://www.antaminka.pe;http://www.antaminka.com;" +
+            "http://www.antaminka.pe;http://www.antaminka.murat.pe;http://www.admin.antaminka.pe";
+        private readonly string OriginMurat = "_OriginPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,18 +34,10 @@ namespace Murat.WebApi
             #region ENABLE CORS
             services.AddCors(options =>
             {
-                options.AddPolicy(MyAllowedOrigin,
+                options.AddPolicy(OriginMurat,
                     builder =>
                     {
-                        builder.WithOrigins(Configuration["AppSettings:Origins"].Split(";"))
-                        .AllowCredentials()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                    });
-                options.AddPolicy("LocalHost",
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:4200")
+                        builder.WithOrigins(OriginList.Split(";"))
                         .AllowCredentials()
                         .AllowAnyMethod()
                         .AllowAnyHeader();
@@ -113,7 +108,7 @@ namespace Murat.WebApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors();
+            app.UseCors(OriginMurat);
             app.UseHttpsRedirection();
             if (env.IsDevelopment())
             {

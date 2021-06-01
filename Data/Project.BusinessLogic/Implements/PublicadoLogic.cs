@@ -1,4 +1,5 @@
-﻿using Project.BusinessLogic.Interfaces;
+﻿using Microsoft.Extensions.Configuration;
+using Project.BusinessLogic.Interfaces;
 using Project.BusinessLogic.Utilities;
 using Project.Models;
 using Project.UnitOfWork;
@@ -11,9 +12,11 @@ namespace Project.BusinessLogic.Implementations
     public class PublicadoLogic : IPublicadoLogic
     {
         private readonly IUnitOfWork _unitOfWork;
-        public PublicadoLogic(IUnitOfWork unitOfWork)
+        private readonly IConfiguration _config;
+        public PublicadoLogic(IUnitOfWork unitOfWork, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
+            _config = config;
         }
 
         public async Task<object> GetPublicado(int cod_Operacion)
@@ -52,6 +55,7 @@ namespace Project.BusinessLogic.Implementations
 
                 if (list != null)
                 {
+                    string directory = _config.GetSection("AppSettings").GetSection("directory").Value;
                     if (cod_Operacion == 1396)
                     {
                         List<PublicadoProducto> lstProd = (List<PublicadoProducto>)list;
@@ -59,35 +63,35 @@ namespace Project.BusinessLogic.Implementations
                         {
                             if (Producto.SArchivo_Producto != "")
                             {
-                                Producto.Url_Producto = AuxiliarMethods.GenerarURL("Producto", Producto.SArchivo_Producto);
+                                Producto.Url_Producto = AuxiliarMethods.GenerarURL(directory, "Producto", Producto.SArchivo_Producto);
                             }
                             if (Producto.Archivo_Marca != "")
                             {
-                                Producto.Url_Marca = AuxiliarMethods.GenerarURL("Marca", Producto.Archivo_Marca);
+                                Producto.Url_Marca = AuxiliarMethods.GenerarURL(directory, "Marca", Producto.Archivo_Marca);
                             }
                             if (Producto.SArchivo_Talla != "")
                             {
-                                Producto.Url_Talla = AuxiliarMethods.GenerarURL("Producto", Producto.SArchivo_Talla);
+                                Producto.Url_Talla = AuxiliarMethods.GenerarURL(directory, "Producto", Producto.SArchivo_Talla);
                             }
                             foreach (var Color in Producto.Color)
                             {
                                 if (Color.SArchivo_Imagen != "")
                                 {
-                                    Color.Url_Imagen = AuxiliarMethods.GenerarURL("Producto", Color.SArchivo_Imagen);
+                                    Color.Url_Imagen = AuxiliarMethods.GenerarURL(directory, "Producto", Color.SArchivo_Imagen);
                                 }
                             }
                             foreach (var Imagen in Producto.Imagen)
                             {
                                 if (Imagen.SArchivo_Imagen_0 != "")
                                 {
-                                    Imagen.Url_Imagen_0 = AuxiliarMethods.GenerarURL("Producto", Imagen.SArchivo_Imagen_0);
+                                    Imagen.Url_Imagen_0 = AuxiliarMethods.GenerarURL(directory, "Producto", Imagen.SArchivo_Imagen_0);
                                 }
                             }
                             foreach (var ProdImagen in Producto.Producto_Imagen)
                             {
                                 if (ProdImagen.SArchivo_Imagen_0 != "")
                                 {
-                                    ProdImagen.Url_Imagen_0 = AuxiliarMethods.GenerarURL("Producto", ProdImagen.SArchivo_Imagen_0);
+                                    ProdImagen.Url_Imagen_0 = AuxiliarMethods.GenerarURL(directory, "Producto", ProdImagen.SArchivo_Imagen_0);
                                 }
                             }
                         }
@@ -100,7 +104,7 @@ namespace Project.BusinessLogic.Implementations
                         {
                             if (Marca.SArchivo != "")
                             {
-                                Marca.Url_Marca = AuxiliarMethods.GenerarURL("Marca", Marca.SArchivo);
+                                Marca.Url_Marca = AuxiliarMethods.GenerarURL(directory, "Marca", Marca.SArchivo);
                             }
                         }
                         response.Data = lstMarca;
@@ -112,7 +116,7 @@ namespace Project.BusinessLogic.Implementations
                         {
                             if (Slider.SArchivo != "")
                             {
-                                Slider.Url_Slider = AuxiliarMethods.GenerarURL("Slider", Slider.SArchivo);
+                                Slider.Url_Slider = AuxiliarMethods.GenerarURL(directory, "Slider", Slider.SArchivo);
                             }
                         }
                         response.Data = lstSlider;

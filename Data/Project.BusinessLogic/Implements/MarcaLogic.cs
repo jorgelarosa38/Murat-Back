@@ -1,4 +1,5 @@
-﻿using Project.BusinessLogic.Interfaces;
+﻿using Microsoft.Extensions.Configuration;
+using Project.BusinessLogic.Interfaces;
 using Project.BusinessLogic.Utilities;
 using Project.Models;
 using Project.UnitOfWork;
@@ -11,9 +12,11 @@ namespace Project.BusinessLogic.Implementations
     public class MarcaLogic : IMarcaLogic
     {
         private readonly IUnitOfWork _unitOfWork;
-        public MarcaLogic(IUnitOfWork unitOfWork)
+        private readonly IConfiguration _config;
+        public MarcaLogic(IUnitOfWork unitOfWork, IConfiguration config)
         {
             _unitOfWork = unitOfWork;
+            _config = config;
         }
 
         public async Task<object> GetMarcas(string sMarca)
@@ -25,11 +28,12 @@ namespace Project.BusinessLogic.Implementations
 
                 if (list.Count > 0)
                 {
+                    string directory = _config.GetSection("AppSettings").GetSection("directory").Value;
                     foreach (var item in list)
                     {
                         if (item.SArchivo != "")
                         {
-                            string url_imagen = AuxiliarMethods.GenerarURL("Marca", item.SArchivo);
+                            string url_imagen = AuxiliarMethods.GenerarURL(directory, "Marca", item.SArchivo);
                             item.UrlImagen = url_imagen;
                         }
                     }
@@ -64,7 +68,8 @@ namespace Project.BusinessLogic.Implementations
                     marca.BImagen = marca.BImagen.ToString().Trim();
                     if (marca.SArchivo != "" && marca.BImagen != "")
                     {
-                        AuxiliarMethods.Base64ToImage(marca.BImagen, marca.SArchivo, "Marca");
+                        string directory = _config.GetSection("AppSettings").GetSection("directory").Value;
+                        AuxiliarMethods.Base64ToImage(directory, marca.BImagen, marca.SArchivo, "Marca");
                     }
                 }
                 responsesql = await _unitOfWork.Marca.UpdMarca(marca);

@@ -8,6 +8,5 @@
         public const string Consult = "No se encontraron registros.";
         public const string Existe = "Datos ya se encuentra registrado.";
         public const string Ok = "OK";
-        public const string url_imagenes = @"https://murat-ti.com:9095/";
     }
 }
